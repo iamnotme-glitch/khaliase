@@ -1,0 +1,636 @@
+/*
+ * Theme: PC-98 Anime Classroom
+ * Derived from pixel-art visual novel scene:
+ * — Soft periwinkle sky viewed through large windows
+ * — Warm cream/beige walls and ceiling
+ * — Honey-tan wooden desks and chairs
+ * — Muted teal chalkboard
+ * — Deep teal-gray linoleum floor
+ * — Dusty purple-blue window frames and curtains
+ * — Flat, dithered, retro pixel-art color blocking
+ */
+
+:root {
+    /* Backgrounds — drawn from wall cream, desk wood, and floor tones */
+    --bg-primary: #ede8d8;       /* warm parchment — classroom wall/ceiling */
+    --bg-secondary: #f5f0e0;     /* lighter cream — desk surface highlight */
+    --bg-tertiary: #e2dcc8;      /* slightly deeper parchment — floor/shadow areas */
+
+    /* Text — deep teal-gray pulled from the floor and window frames */
+    --text-primary: #1e2e2a;     /* near-black teal — deep floor shadow */
+    --text-secondary: #5a6e68;   /* muted mid-teal — secondary labels */
+
+    /* Borders — dusty purple-blue of the window frames */
+    --border-color: #b0b8c8;     /* periwinkle window frame dividers */
+
+    /* Accent — chalkboard teal-green */
+    --accent-color: #3a6650;     /* muted teal-green chalkboard */
+    --accent-text: #dce8e0;      /* pale mint — chalk-white on board */
+
+    /* Semantic colors */
+    --success-color: #4a8c5c;    /* muted classroom green */
+    --warning-color: #c8903c;    /* warm amber — desk wood highlight */
+
+    /* Sky palette extras */
+    --sky-light: #c8d4e8;
+    --sky-mid: #a0aec8;
+    --sky-deep: #7888a8;
+    --curtain-white: #dce0ee;
+    --desk-wood: #c8a060;
+    --desk-shadow: #a07840;
+    --floor-teal: #2a4840;
+    --board-green: #3a6650;
+    --board-frame: #2a3c30;
+    --window-frame: #8890a8;
+
+    --container-width: 1100px;
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius: 4px;
+}
+
+/* ── Global pixel-art dither overlay ──────────────────────────── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        radial-gradient(circle, rgba(160,174,200,0.07) 1px, transparent 1px);
+    background-size: 4px 4px;
+}
+
+/* ── Shared theme components ───────────────────────────────────── */
+
+.info-surface {
+    background-color: var(--sky-light);
+    border: 1px solid var(--sky-mid);
+    color: var(--floor-teal);
+}
+
+.board-panel {
+    background-color: var(--board-green);
+    border: 3px solid var(--board-frame);
+    border-radius: var(--radius);
+    color: var(--curtain-white);
+    padding: 1rem 1.25rem;
+    font-family: var(--font-main);
+}
+
+.room-card {
+    border-top: 3px solid var(--desk-wood);
+}
+
+.room-card:hover {
+    border-top-color: var(--desk-shadow);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────── */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ── Filter Bar (base) ─────────────────────────────────────────── */
+
+.stacked-filters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    width: 100%;
+}
+
+.period-group {
+    max-width: 100%;
+}
+
+.filter-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #a1a1aa;
+}
+
+.filter-list.horizontal {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.filter-list.scrollable {
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+}
+
+.filter-list.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-item {
+    appearance: none;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.375rem 0.625rem;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.filter-item:hover {
+    background-color: #f3f3f3;
+    color: var(--text-primary);
+    border-color: #d1d1d1;
+}
+
+.filter-item.active {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+    border-color: var(--accent-color);
+}
+
+/* ── Notice Bar ────────────────────────────────────────────────── */
+
+.notice-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    background-color: #fdf3e0;
+    border: 1px solid var(--desk-wood);
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    color: var(--desk-shadow);
+    margin-top: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.notice-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background-color: var(--warning-color);
+    color: white;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.625rem;
+    flex-shrink: 0;
+}
+
+/* ── Main Content ──────────────────────────────────────────────── */
+
+.main-content {
+    flex-grow: 1;
+    padding-bottom: 2rem;
+}
+
+.results-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.floor-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.floor-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.375rem;
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.75rem;
+}
+
+.room-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 0.875rem 0.75rem;
+    text-align: center;
+    transition: all 0.15s ease;
+}
+
+.room-card:hover {
+    border-color: #d1d1d1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.room-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.empty-state {
+    padding: 4rem 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+/* ── Footer ────────────────────────────────────────────────────── */
+
+.app-footer {
+    background-color: var(--floor-teal);
+    border-top: 2px solid var(--board-frame);
+    padding: 1.5rem 0;
+    text-align: center;
+}
+
+.app-footer p {
+    font-size: 0.75rem;
+    color: var(--curtain-white);
+    opacity: 0.6;
+}
+
+.copyright {
+    font-size: 0.75rem;
+    color: var(--curtain-white);
+    opacity: 0.6;
+}
+
+
+
+
+.app-header {
+    /* Solid fallback if the image is missing */
+    background-color: var(--floor-teal);
+    /* Image properties (image set inline via url_for) */
+    background-size: cover;
+    background-position: center 28%;
+    background-repeat: no-repeat;
+    /* Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: calc(228px + 6rem);
+    padding: 0 0 5.5rem;
+    /* Stacking */
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--board-frame);
+}
+
+/* Atmospheric colour wash — sky-periwinkle into deep-teal */
+.app-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        158deg,
+        rgba(136, 144, 168, 0.14) 0%,
+        rgba(30, 46, 42, 0.66) 58%,
+        rgba(18, 28, 24, 0.84) 100%
+    );
+    z-index: 1;
+}
+
+/* PC-98 scanline + dot-dither texture */
+.app-header::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px, transparent 3px,
+            rgba(0, 0, 0, 0.032) 3px, rgba(0, 0, 0, 0.032) 4px
+        ),
+        radial-gradient(circle, rgba(220, 224, 240, 0.05) 1px, transparent 1px);
+    background-size: auto, 4px 4px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.header-content {
+    position: relative;
+    z-index: 3;
+    padding: 2.5rem 2rem;
+}
+
+/* ── Floating chalkboard nameplate ─── */
+
+.brand-frame {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+
+    background: rgba(30, 50, 38, 0.84);
+    border: 2px solid rgba(178, 208, 192, 0.26);
+    padding: 1.25rem 3.5rem 1.125rem;
+
+    /* Pixel-art hard shadow + inset glow */
+    box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.44),
+        inset 0 0 36px rgba(36, 86, 58, 0.18),
+        0 0 0 1px rgba(36, 74, 54, 0.55);
+}
+
+/* Second outer border — 2px gap, very faint */
+.brand-frame::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(178, 208, 192, 0.09);
+    pointer-events: none;
+}
+
+/* Small pixel-corner accent squares */
+.brand-frame::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background:
+        /* TL */  linear-gradient(135deg, rgba(178,208,192,0.35) 3px, transparent 3px) top    left  / 8px 8px no-repeat,
+        /* TR */  linear-gradient(225deg, rgba(178,208,192,0.35) 3px, transparent 3px) top    right / 8px 8px no-repeat,
+        /* BL */  linear-gradient(45deg,  rgba(178,208,192,0.35) 3px, transparent 3px) bottom left  / 8px 8px no-repeat,
+        /* BR */  linear-gradient(315deg, rgba(178,208,192,0.35) 3px, transparent 3px) bottom right / 8px 8px no-repeat;
+    pointer-events: none;
+}
+
+.brand {
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #e0ece6;
+    line-height: 1;
+    margin-bottom: 0;
+    text-shadow:
+        1px 1px 0 rgba(0, 0, 0, 0.58),
+        0 0 20px rgba(108, 172, 136, 0.28);
+}
+
+.brand-subtitle {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: rgba(184, 212, 198, 0.66);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   ✦  CHALKBOARD FILTER BAR — SELECTION SECTION
+   ══════════════════════════════════════════════════════════════════ */
+
+.filter-bar {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.75rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-top: -4.5rem;
+}
+
+/* Strip the board-panel's own box when it's inside the filter-bar */
+.filter-bar .stacked-filters {
+    background-color: rgba(28, 40, 35, 0.86);
+    backdrop-filter: saturate(140%) blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1rem;
+    padding: 1rem 1.15rem;
+    gap: 0.9rem;
+    align-items: center;
+    box-shadow: 0 22px 56px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Chalk-written section labels ─── */
+
+.filter-bar .filter-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    color: rgba(236, 245, 236, 0.92);
+    padding-left: 0;
+    line-height: 1;
+}
+
+/* Chalk dash trailing the label */
+.filter-bar .filter-label::after {
+    content: '';
+    display: inline-block;
+    width: 13px;
+    height: 1px;
+    background: currentColor;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+    opacity: 0.55;
+}
+
+/* ── Chalk-pill filter buttons ─── */
+
+.filter-bar .filter-item {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(190, 214, 198, 0.26);
+    border-radius: 4px;
+    color: rgba(221, 236, 226, 0.96);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.4rem 0.85rem;
+    white-space: nowrap;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.filter-bar .filter-item:hover {
+    background: rgba(255, 255, 255, 0.24);
+    color: #f2fbf0;
+    border-color: rgba(214, 234, 222, 0.48);
+    transform: translateY(-1px);
+}
+
+.filter-bar .filter-item.active {
+    background: rgba(214, 234, 222, 0.96);
+    color: #395d44;
+    border-color: rgba(214, 234, 222, 0.94);
+    font-weight: 700;
+    box-shadow:
+        0 0 0 1px rgba(214, 234, 222, 0.22),
+        0 10px 24px rgba(32, 84, 44, 0.14);
+}
+
+/* ── Dashed chalk-line row dividers ─── */
+
+.filter-bar .filter-group + .filter-group {
+    position: relative;
+    padding-top: 0.65rem;
+}
+
+.filter-bar .filter-group + .filter-group::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(calc(100% - 1.5rem), 580px);
+    height: 1px;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(178, 208, 192, 0.11) 0px,
+        rgba(178, 208, 192, 0.11) 5px,
+        transparent 5px,
+        transparent 11px
+    );
+}
+
+
+/* ══════════════════════════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 900px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Header */
+    .app-header {
+        min-height: 175px;
+    }
+
+    .brand-frame {
+        padding: 1rem 2.25rem;
+    }
+
+    .brand {
+        font-size: 1.5rem;
+        letter-spacing: 0.13em;
+    }
+
+    .brand-subtitle {
+        font-size: 0.625rem;
+    }
+
+    /* Filter bar */
+    .filter-bar {
+        padding: 0.625rem 0;
+    }
+
+    .filter-bar .stacked-filters {
+        gap: 0.6rem;
+        align-items: flex-start;
+    }
+
+    .filter-group {
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .filter-bar .filter-label {
+        font-size: 0.5rem;
+        padding-left: 0.25rem;
+    }
+
+    .filter-list.horizontal {
+        width: 100vw;
+        margin-left: -1rem;
+        padding: 0 1rem 0.375rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-bar .filter-item {
+        font-size: 0.75rem;
+        padding: 0.28rem 0.6rem;
+    }
+
+    .filter-bar .filter-group + .filter-group {
+        padding-top: 0.5rem;
+    }
+
+    /* Content */
+    .notice-bar {
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .results-grid {
+        gap: 1.5rem;
+    }
+
+    .room-grid {
+        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+        gap: 0.5rem;
+    }
+
+    .room-card {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .room-name {
+        font-size: 0.8125rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header {
+        min-height: 148px;
+    }
+
+    .brand-frame {
+        padding: 0.875rem 1.5rem;
+    }
+
+    .brand {
+        font-size: 1.25rem;
+        letter-spacing: 0.10em;
+    }
+
+    .room-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

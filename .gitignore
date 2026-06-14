@@ -1,0 +1,4 @@
+# Keep local updater script out of the repository
+room_schedule_updater.py
+__pycache__/
+.venv/

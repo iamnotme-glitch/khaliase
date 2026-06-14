@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khaliase — Room Scheduler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+
+        <!--
+            ── CLASSROOM BACKGROUND ──────────────────────────────────────
+            Copy your reference image (40o72vtgb1v51.jpg) into your Flask
+            static/ folder and rename it:  classroom-bg.jpg
+            ─────────────────────────────────────────────────────────────
+        -->
+        <header class="app-header"
+                style="background-image: url({{ url_for('static', filename='classroom-bg.jpg') }});">
+            <div class="header-content">
+                <!--
+                    .brand-frame is the floating chalkboard nameplate.
+                    It sits above the image overlay layers (z-index 3).
+                -->
+                <div class="brand-frame">
+                    <h1 class="brand">Khaliase</h1>
+                    <p class="brand-subtitle">Find available rooms instantly.</p>
+                </div>
+            </div>
+        </header>
+
+        <section class="filter-bar">
+            <div class="container">
+                <form id="free-room-form" class="stacked-filters board-panel">
+                    <div class="filter-group period-group">
+                        <label class="filter-label">Time</label>
+                        <div id="period-filter" class="filter-list horizontal scrollable" role="group">
+                            <!-- Periods injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Day</label>
+                        <div id="day-filter" class="filter-list horizontal" role="group">
+                            <button type="button" class="filter-item active" data-value="Sunday">Sun</button>
+                            <button type="button" class="filter-item" data-value="Monday">Mon</button>
+                            <button type="button" class="filter-item" data-value="Tuesday">Tue</button>
+                            <button type="button" class="filter-item" data-value="Wednesday">Wed</button>
+                            <button type="button" class="filter-item" data-value="Thursday">Thu</button>
+                            <button type="button" class="filter-item" data-value="Saturday">Sat</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label class="filter-label">Type</label>
+                        <div id="room-filter" class="filter-list horizontal" role="group">
+                            <button type="button" class="filter-item active" data-value="all">All</button>
+                            <button type="button" class="filter-item" data-value="class">Class</button>
+                            <button type="button" class="filter-item" data-value="lab">Lab</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <main class="main-content">
+            <div class="container">
+                <div class="notice-bar">
+                    <span class="notice-icon">i</span>
+                    <p>Labs from all departments are included in this data and printing labs are excluded. Respect university and departmental regulations.</p>
+                </div>
+                <div id="search-result" class="results-grid">
+                    <div class="empty-state">
+                        <p>Select a period above to see available rooms.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div class="container footer-meta">
+                <p>This project is independent and not associated with BRAC University.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
