@@ -288,6 +288,16 @@ body {
     opacity: 0.6;
 }
 
+.footer-note a {
+    color: #f5d478;
+    text-decoration: underline;
+}
+
+.footer-note a:hover,
+.footer-note a:focus {
+    color: #ffffff;
+}
+
 .copyright {
     font-size: 0.75rem;
     color: var(--curtain-white);
